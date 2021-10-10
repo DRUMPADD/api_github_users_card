@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub User</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form_user">
+            <form action="/get_user" method="POST">
+                <input type="text" name="user" placeholder="Type user">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="show_user">
+            {% if data_user.status_code == 200 %}
+                <img src="{{ data_user.json()['avatar_url'] }}" alt="">
+                <div class="info">
+                    <p>Login: {{ data_user.json()['login'] }}</p>
+                    <p>Name: {{ data_user.json()['name'] }}</p>
+                    <p>Biography: {{ data_user.json()['bio'] }}</p>
+                    <p>{{ data_user.json()['public_repos'] }} public repos</p>
+                    <a href="{{ data_user.json()['html_url'] }}">VIEW PROFILE</a>
+                </div>
+            {% else %}
+                <img src="{{ url_for('static', filename='img/unknown.jpg') }}" alt="">
+                <div class="info">
+                    <p>Login:</p>
+                    <p>Name:</p>
+                    <p>Biography:</p>
+                    <p>0 public repos</p>
+                    <a href="#">VIEW PROFILE</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
